@@ -22,7 +22,7 @@ Here's a step-by-step description of how a game of Tatedrez would unfold:
 * **Board Setup:**
     An empty board is placed, consisting of a 3x3 grid, similar to a Tic Tac Toe game.
 
-  <img width="320" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/69e58f89-c8e0-407c-9003-0ce5a6bb0beb">
+  <img width="320" alt="image" src="illustrations/board.png">
 
 * **Piece Placement:**
     Choose a random player to start.  
@@ -30,7 +30,7 @@ Here's a step-by-step description of how a game of Tatedrez would unfold:
     Player 2 places one of their pieces in another empty square on the board.  
     They continue alternating until both players have placed their three pieces on the board.
 
-  <img width="321" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/85ec3c00-6cd7-467e-b853-37f28698829a">
+  <img width="321" alt="image" src="illustrations/board-with-pieces.png">
   
 
 * **Checking for TicTacToe:**
@@ -46,14 +46,14 @@ Here's a step-by-step description of how a game of Tatedrez would unfold:
     In dynamic mode, players strategically move their pieces to form a TicTacToe.  
     They continue moving their pieces in turns until one of them achieves a TicTacToe with their three pieces.
 
-  <img width="321" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/2d3e69f8-89ae-4890-b19a-aadb9838cfda">
+  <img width="321" alt="image" src="illustrations/board-with-pieces-1.png">
 
 
 * **Game Conclusion:**
     The game of Tateddrez concludes when one of the players manages to achieve a TicTacToe with their three pieces, either during the initial placement phase or during dynamic mode.  
     The player who achieves the TicTacToe is declared the winner.
 
-  <img width="317" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/9561dd1b-d760-47ec-8bc9-41086e1960db">
+  <img width="317" alt="image" src="illustrations/board-with-pieces-2.png">
 
 
 ---
