@@ -63,7 +63,7 @@ Here's a step-by-step description of how a game of Tatedrez would unfold:
 * Any external module/plugin/library/resource should be in the project. Please don't use github URLs to intstall UPM packages.  
 ---
 # Delivery
-* Fork this repository or clone this repository and create a new one with your github account. Share the new repository with the users "shanickgauthier", "juanblasco" and "kk-homa" or make it public.
+* Fork this repository or clone this repository and create a new one with your github account. Share the new repository with the users "shanickcuello", "juanblasco" and "kk-homa" or make it public.
 * Build Android .apk and upload it to the repository.  
 ---
 # What we will be evaluated?  
