@@ -6,8 +6,6 @@ You should use the best practices available to you to ensure the best and easies
 Explain, in a separate text document, your implementation choices for the different systems or modules implemented.
 The juiciness and attractiveness of the gameplay and UI will also be evaluated. [Evaluation criteria section link](#what-we-will-be-evaluated)
 
-The game must be buildable and runnable on iOS or Android at 60fps without crashes or errors.
-
 ---
 
 # GAME DESCRIPTION AND RULES:
