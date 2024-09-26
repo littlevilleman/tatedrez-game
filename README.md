@@ -1,6 +1,6 @@
 # Tatedrez-game
 
-Create a tateDrez game using good coding practices, take into account the mantainance, scalability and readability of the code.
+Create a Tatedrez game using good coding practices, take into account the mantainance, scalability and readability of the code.
 You should use the best practices at your disposal in order to guarantee the best and easier code re-usability.
 
 Explain on a separated text document your implementation choices for the different systems or modules implemented.
@@ -11,7 +11,7 @@ The game must be buildable and runnable on iOS or Android at 60fps without crash
 ---
 
 # GAME DESCRIPTION AND RULES:
-Here's a step-by-step description of how a game of Tateddrez would unfold:  
+Here's a step-by-step description of how a game of Tatedrez would unfold:  
 
 * **Pieces:**
     The game has only 3 pieces. Knight, Bishop and Rook:
