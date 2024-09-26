@@ -66,6 +66,23 @@ Here's a step-by-step description of how a game of Tatedrez would unfold:
 * Fork this repository or clone this repository and create a new one with your github account. Share the new repository with the users "shanickgauthier", "juanblasco" and "kk-homa" or make it public.
 * Build Android .apk and upload it to the repository.  
 ---
+# What we will be evaluated?  
+* Additional documentation    
+* Project folder structure  
+* General code architecture  
+* Scalability  
+* Single responsibility principle
+* Open-closed principle 
+* KISS principle  
+* Clean code principles  
+* Use of interfaces and/or abstract classes  
+* Use of the design patterns    
+* Game & Feel  
+* Visuals  
+* Use of scriptable objects  
+* Use of the version control system  
+* Presence of Unit Tests  
+---
 ### Disclaimer
 The company reserves the right not to provide feedback on the outcome of your case study.  
 
