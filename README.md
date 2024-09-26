@@ -1,10 +1,10 @@
 # Tatedrez-game
 
-Create a Tatedrez game using good coding practices, take into account the mantainance, scalability and readability of the code.
-You should use the best practices at your disposal in order to guarantee the best and easier code re-usability.
+Create a Tatedrez game using good coding practices, taking into account the maintainability, scalability and readability of the code.
+You should use the best practices available to you to ensure the best and easiest reusability of the code.
 
-Explain on a separated text document your implementation choices for the different systems or modules implemented.
-Juicyness and attractiveness of the gameplay and UI will be valorated too.
+Explain, in a separate text document, your implementation choices for the different systems or modules implemented.
+The juiciness and attractiveness of the gameplay and UI will also be evaluated. [Evaluation criteria section link](#what-we-will-be-evaluated)
 
 The game must be buildable and runnable on iOS or Android at 60fps without crashes or errors.
 
