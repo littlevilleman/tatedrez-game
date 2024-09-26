@@ -1,3 +1,5 @@
+Please confirm receipt of this case study with your estimated time of delivery 👍
+
 # Tatedrez-game
 
 Create a Tatedrez game using good coding practices, taking into account the maintainability, scalability and readability of the code.
