@@ -1,17 +1,17 @@
+Please confirm receipt of this case study with your estimated time of delivery 👍
+
 # Tatedrez-game
 
-Create a tateDrez game using good coding practices, take into account the mantainance, scalability and readability of the code.
-You should use the best practices at your disposal in order to guarantee the best and easier code re-usability.
+Create a Tatedrez game using good coding practices, taking into account the maintainability, scalability and readability of the code.
+You should use the best practices available to you to ensure the best and easiest reusability of the code.
 
-Explain on a separated text document your implementation choices for the different systems or modules implemented.
-Juicyness and attractiveness of the gameplay and UI will be valorated too.
-
-The game must be buildable and runnable on iOS or Android at 60fps without crashes or errors.
+Explain, in a separate text document, your implementation choices for the different systems or modules implemented.
+The juiciness and attractiveness of the gameplay and UI will also be evaluated. [Evaluation criteria section link](#what-we-will-be-evaluated)
 
 ---
 
 # GAME DESCRIPTION AND RULES:
-Here's a step-by-step description of how a game of Tateddrez would unfold:  
+Here's a step-by-step description of how a game of Tatedrez would unfold:  
 
 * **Pieces:**
     The game has only 3 pieces. Knight, Bishop and Rook:
@@ -22,7 +22,7 @@ Here's a step-by-step description of how a game of Tateddrez would unfold:
 * **Board Setup:**
     An empty board is placed, consisting of a 3x3 grid, similar to a Tic Tac Toe game.
 
-  <img width="320" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/69e58f89-c8e0-407c-9003-0ce5a6bb0beb">
+  <img width="320" alt="image" src="illustrations/board.png">
 
 * **Piece Placement:**
     Choose a random player to start.  
@@ -30,7 +30,7 @@ Here's a step-by-step description of how a game of Tateddrez would unfold:
     Player 2 places one of their pieces in another empty square on the board.  
     They continue alternating until both players have placed their three pieces on the board.
 
-  <img width="321" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/85ec3c00-6cd7-467e-b853-37f28698829a">
+  <img width="321" alt="image" src="illustrations/board-with-pieces.png">
   
 
 * **Checking for TicTacToe:**
@@ -46,14 +46,14 @@ Here's a step-by-step description of how a game of Tateddrez would unfold:
     In dynamic mode, players strategically move their pieces to form a TicTacToe.  
     They continue moving their pieces in turns until one of them achieves a TicTacToe with their three pieces.
 
-  <img width="321" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/2d3e69f8-89ae-4890-b19a-aadb9838cfda">
+  <img width="321" alt="image" src="illustrations/board-with-pieces-1.png">
 
 
 * **Game Conclusion:**
     The game of Tateddrez concludes when one of the players manages to achieve a TicTacToe with their three pieces, either during the initial placement phase or during dynamic mode.  
     The player who achieves the TicTacToe is declared the winner.
 
-  <img width="317" alt="image" src="https://github.com/juanblasco/tatedrez-game/assets/129755869/9561dd1b-d760-47ec-8bc9-41086e1960db">
+  <img width="317" alt="image" src="illustrations/board-with-pieces-2.png">
 
 
 ---
@@ -63,8 +63,25 @@ Here's a step-by-step description of how a game of Tateddrez would unfold:
 * Any external module/plugin/library/resource should be in the project. Please don't use github URLs to intstall UPM packages.  
 ---
 # Delivery
-* Fork this repository or clone this repository and create a new one into your github account and share the repository with the users "shanickgauthier", "juanblasco" and "kk-homa" or make it public.
+* Fork this repository or clone this repository and create a new one with your github account. Share the new repository with the users "shanickcuello", "juanblasco" and "kk-homa" or make it public.
 * Build Android .apk and upload it to the repository.  
+---
+# What we will be evaluated?  
+* Additional documentation    
+* Project folder structure  
+* General code architecture  
+* Scalability  
+* Single responsibility principle
+* Open-closed principle 
+* KISS principle  
+* Clean code principles  
+* Use of interfaces and/or abstract classes  
+* Use of the design patterns    
+* Game & Feel  
+* Visuals  
+* Use of scriptable objects  
+* Use of the version control system  
+* Presence of Unit Tests  
 ---
 ### Disclaimer
 The company reserves the right not to provide feedback on the outcome of your case study.  
