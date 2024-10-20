@@ -34,7 +34,7 @@ namespace Client
             Vector2Int[] moves = piece.GetValidMoves(board).ToArray();
             for (int i = 0; i < moves.Length; i++)
             {
-                locationHolders[i].transform.position = new Vector3(moves[i].x, moves[i].y);
+                locationHolders[i].transform.position = new Vector3(moves[i].x + .5f, moves[i].y + .5f);
                 locationHolders[i].gameObject.SetActive(true);
             }
 
