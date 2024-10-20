@@ -3,13 +3,9 @@ using UnityEngine;
 
 namespace Core.Pieces
 {
-    public class Bishop: Piece, IPiece
+    public class Bishop: IPieceStrategy
     {
-        public Bishop(int ownerIdSetup) : base(ownerIdSetup)
-        {
-        }
-
-        public override List<Vector2Int> GetValidMoves(IBoard board)
+        public ICollection<Vector2Int> GetValidMoves(IBoard board, Vector2Int location)
         {
             List<Vector2Int> moves = new List<Vector2Int>();
 
@@ -17,12 +13,10 @@ namespace Core.Pieces
             {
                 for (int i = 1; i < board.Size; i++)
                 {
-                    Vector2Int location = Location + direction * i;
-
-                    if (!board.IsValidLocation(location))
+                    if (board.GetLocatable(location + direction * i) != null)
                         break;
 
-                    moves.Add(location);
+                    moves.Add(location + direction * i);
                 }
             }
 

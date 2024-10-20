@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,8 +5,6 @@ namespace Core
 {
     public class AIPlayer : Player, IPlayer
     {
-        public List<IPiece> PendingPieces => Pieces.Where(x => !x.IsLocated).ToList();
-
         public AIPlayer(int id, string name, IPiece[] pieceSet)
         {
             Id = id;
@@ -15,44 +12,26 @@ namespace Core
             Pieces = pieceSet;
         }
 
-        public override void OpenTurn(ITurnDispatcher turnDispatcher, IBoard board)
+        public override void OpenTurn(IMatch match, IBoard board)
         {
-            if (PendingPieces.Count > 0)
-                LocatePiece(board, turnDispatcher);
-            else if(HasAvailableMoves(board))
-                MovePiece(board, turnDispatcher);
-            else
-                CloseTurn(turnDispatcher);
+            IPiece piece = GetRandomPiece(board);
+            Vector2Int move = GetRandomMove(board, piece);
+            match.RequestMovement(this, piece, move);
         }
 
-        private void MovePiece(IBoard board, ITurnDispatcher turnDispatcher)
+        private IPiece GetRandomPiece(IBoard board)
         {
-            IPiece piece = GetRandomValidPiece(board);
-            List<Vector2Int> validLocations = piece.GetValidMoves(board).ToList();
-            Vector2Int location = validLocations[Random.Range(0, validLocations.Count)];
+            IPiece[] validPieces = PendingPieces.Length > 0 ? PendingPieces : Pieces.Where(x => x.GetValidMoves(board).Count > 0).ToArray();
+            if (validPieces.Length > 0)
+                return validPieces[Random.Range(0, validPieces.Length)];
 
-            if (board.TryMovePiece(piece, location))
-                CloseTurn(turnDispatcher);
+            return null;
         }
 
-        private void LocatePiece(IBoard board, ITurnDispatcher turnDispatcher)
+        private Vector2Int GetRandomMove(IBoard board, IPiece piece)
         {
-            IPiece piece = PendingPieces[Random.Range(0, PendingPieces.Count)];
-            Vector2Int location = TatedrezUtils.GetRandomValidLocation(board);
-
-            if (board.TryMovePiece(piece, location))
-                CloseTurn(turnDispatcher);
-        }
-
-        private IPiece GetRandomValidPiece(IBoard board)
-        {
-            List<IPiece> validPieces = Pieces.Where(x => x.GetValidMoves(board).Count > 0).ToList();
-            return validPieces[Random.Range(0, validPieces.Count)];
-        }
-
-        public override void CloseTurn(ITurnDispatcher turnDispatcher)
-        {
-            turnDispatcher.DispatchTurn(this);
+            Vector2Int[] validMoves = piece.GetValidMoves(board).ToArray();
+            return validMoves[Random.Range(0, validMoves.Length)];
         }
     }
 }

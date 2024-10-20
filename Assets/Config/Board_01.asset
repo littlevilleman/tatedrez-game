@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e2426a19d5884b4da80fe2850fa2935, type: 3}
-  m_Name: Board
+  m_Name: Board_01
   m_EditorClassIdentifier: 
-  size: 3
+  <size>k__BackingField: 3

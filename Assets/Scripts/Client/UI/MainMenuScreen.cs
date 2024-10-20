@@ -1,29 +1,27 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Client.UI
 {
-    public class MainMenu : Screen
+    public class MainMenuScreen : Screen
     {
         [SerializeField] private Button startButton;
-        private Action startMatchAction;
+        private MatchManager matchManager;
 
         protected override void OnDisplay(params object[] parameters)
         {
-            startMatchAction = parameters[0] as Action;
+            matchManager = parameters[0] as MatchManager;
             startButton.onClick.AddListener(OnClickStartButton);
         }
 
         private void OnClickStartButton()
         {
-            startMatchAction?.Invoke();
+            matchManager.RequestStartMatch();
         }
 
         protected override void OnClose()
         {
             startButton.onClick.RemoveListener(OnClickStartButton);
-            startMatchAction = null;
         }
     }
 }

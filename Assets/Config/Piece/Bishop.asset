@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1ff39c462d6aa408ee1bc3a02da161, type: 3}
   m_Name: Bishop
   m_EditorClassIdentifier: 
-  piece: 2
-  sprite: {fileID: 315841573, guid: 804161b9f3424ad49bf9c53420ca01d5, type: 3}
+  <Id>k__BackingField: 2
+  <Sprite>k__BackingField: {fileID: 315841573, guid: 804161b9f3424ad49bf9c53420ca01d5, type: 3}

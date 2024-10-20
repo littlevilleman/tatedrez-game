@@ -1,3 +1,4 @@
+using Config;
 using Core;
 using UnityEngine;
 
@@ -11,14 +12,14 @@ namespace Client.UI
         protected override void OnDisplay(params object[] parameters)
         {
             IMatch match = parameters[0] as IMatch;
-            ConfigManager config = parameters[1] as ConfigManager;
-            match.OnStepTurn += OnStepTurn;
+            IGameConfig config = parameters[1] as IGameConfig;
+            match.OnSwitchTurn += OnSwitchTurn;
 
-            localPlayerWidget.Setup(config.GetPlayerConfig(0));
-            remotePlayerWidget.Setup(config.GetPlayerConfig(1));
+            localPlayerWidget.Setup(config.Players[0]);
+            remotePlayerWidget.Setup(config.Players[1]);
         }
 
-        private void OnStepTurn(IPlayer currentPlayer)
+        private void OnSwitchTurn(IPlayer currentPlayer)
         {
             localPlayerWidget.Highlight(currentPlayer.Id == 0);
             remotePlayerWidget.Highlight(currentPlayer.Id == 1);

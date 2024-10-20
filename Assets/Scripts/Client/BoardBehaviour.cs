@@ -1,70 +1,65 @@
+using Config;
 using Core;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Client
 {
-    public class BoardBehaviour : MonoBehaviour
+    public interface IMatchPieceSelector
+    {
+        public IPiece SelectedPiece { get; }
+        public void Select(IPiece piece);
+    }
+
+    public class BoardBehaviour : MonoBehaviour, IMatchPieceSelector
     {
         [SerializeField] private Camera cam;
+        [SerializeField] private SpriteRenderer gridRenderer;
         [SerializeField] private PieceMovementHolder movementHolder;
+        [SerializeField] private Transform[] playerPiecesHolders;
 
         private IBoard board;
-        private IMatch match;
-        private PieceBehaviour selectedPiece;
-        private InputManager input;
+        private ICollection<PieceBehaviour> piecesBhv = new List<PieceBehaviour>();
+        public IPiece SelectedPiece { get; private set; }
+        private PieceBehaviour SelectedPieceBhv => piecesBhv.Where(x => x.Piece == SelectedPiece).FirstOrDefault();
 
-        public void Setup(IMatch matchSetup, InputManager inputSetup)
+        public void Setup(IBoard boardSetup, IPlayer[] players, PiecePool piecePool, IGameConfig config)
         {
-            input = inputSetup;
-            board = matchSetup.Board;
-            match = matchSetup;
-            match.OnEnd += OnEndMatch;
+            board = boardSetup;
+            gridRenderer.size = Vector2.one * board.Size;
+            cam.transform.position = new Vector3(board.Size / 2f, board.Size / 2f, -10f);
 
-            input.Setup(this);
+            foreach (IPlayer player in players)
+                SetupPlayerPieces(player, piecePool, config);
         }
 
-        public void OnClick(InputAction.CallbackContext context)
+        public void Select(IPiece piece)
         {
-            Vector3 clickPosition = input.GetClickPosition(cam);
-            Vector2Int location = TatedrezUtils.PositionToGridLocation(clickPosition);
-            Collider2D collider = Physics2D.Raycast(clickPosition, Vector3.forward).collider;
-
-            if (collider == null)
-                return;
-
-            if (collider.gameObject.layer == LayerMask.NameToLayer("Piece"))
-            {
-                SelectPiece(collider.GetComponent<PieceBehaviour>());
-                return;
-            }
-
-            if (selectedPiece != null)
-            {
-                if (selectedPiece.TryMove(board, location))
-                    match.CurrentPlayer.CloseTurn(match);
-            }
-
-            selectedPiece?.Unselect();
-            selectedPiece = null;
-            movementHolder.OnSelect(board, selectedPiece);
+            SelectedPieceBhv?.Unselect();
+            SelectedPiece =  piece;
+            SelectedPieceBhv?.Select();
+            
+            movementHolder.OnSelect(board, SelectedPiece);
         }
 
-        private void SelectPiece(PieceBehaviour pieceBhv)
+        private void SetupPlayerPieces(IPlayer player, PiecePool pool, IGameConfig config)
         {
-            if (match.CurrentPlayer.Id == pieceBhv.Piece.OwnerId && !(pieceBhv.Piece.IsLocated && match.CurrentPlayer.PendingPieces.Count > 0))
+            for (int iPiece = 0; iPiece < player.Pieces.Length; iPiece++)
             {
-                selectedPiece?.Unselect();
-                selectedPiece = pieceBhv;
-                selectedPiece?.Select();
-                movementHolder.OnSelect(board, selectedPiece);
-                Debug.Log($"[Client/Board] - Select Piece {selectedPiece}");
+                IPiece piece = player.Pieces[iPiece];
+                PieceBehaviour pieceBhv = pool.Pull(playerPiecesHolders[player.Id]);
+                pieceBhv.Setup(piece, iPiece, config.GetPieceConfig(piece.Id));
+                piecesBhv.Add(pieceBhv);
             }
         }
 
-        private void OnEndMatch(IPlayer victoryPlayer)
+        public void Recycle(PiecePool pool)
         {
-            input.Disable();
+            foreach (PieceBehaviour pieceBhv in piecesBhv)
+                pieceBhv.Recycle(pool);
+
+            piecesBhv.Clear();
         }
     }
 }

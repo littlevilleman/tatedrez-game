@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1ff39c462d6aa408ee1bc3a02da161, type: 3}
   m_Name: Rook
   m_EditorClassIdentifier: 
-  piece: 1
-  sprite: {fileID: 2004167163, guid: 804161b9f3424ad49bf9c53420ca01d5, type: 3}
+  <Id>k__BackingField: 1
+  <Sprite>k__BackingField: {fileID: 2004167163, guid: 804161b9f3424ad49bf9c53420ca01d5, type: 3}

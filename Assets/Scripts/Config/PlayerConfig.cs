@@ -1,4 +1,3 @@
-using Core;
 using UnityEngine;
 
 namespace Config
@@ -9,13 +8,5 @@ namespace Config
         public new string name;
         public Sprite avatar;
         public bool isAI = false;
-
-        public IPlayer Build(int id, IPiece[] pieceSet)
-        {
-            if(isAI)
-                return new AIPlayer(id, name, pieceSet);
-
-            return new HumanPlayer(id, name, pieceSet);
-        }
     }
 }

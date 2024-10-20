@@ -6,28 +6,45 @@ namespace Core
 {
     public static class TatedrezUtils
     {
-        public static Vector2Int[] OrthogonalDirections = new Vector2Int[4]
+        public static readonly ICollection<Vector2Int> OrthogonalDirections = new Vector2Int[4]
         {
             Vector2Int.up, Vector2Int.right, -Vector2Int.up, -Vector2Int.right,
         };
 
-        public static Vector2Int[] DiagonalDirections = new Vector2Int[4]
+        public static readonly ICollection<Vector2Int> DiagonalDirections = new Vector2Int[4]
         {
             Vector2Int.up + Vector2Int.right, Vector2Int.up -Vector2Int.right, -Vector2Int.up + Vector2Int.right, -Vector2Int.up - Vector2Int.right
         };
 
-        public static Vector2Int[] Directions = OrthogonalDirections.Concat(DiagonalDirections).ToArray();
+        public static readonly ICollection<Vector2Int> Directions = OrthogonalDirections.Concat(DiagonalDirections).ToArray();
 
-        public static bool CheckPlayerVictory(IBoard board, IPlayer player)
+
+        public static Vector2Int[] GetEmptyLocations(IBoard board)
         {
-            Vector2Int pieceLocation = player.Pieces[0].Location;
+            ICollection<Vector2Int> validLocations = new List<Vector2Int>();
+
+            for (int x = 0; x < board.Size; x++)
+                for (int y = 0; y < board.Size; y++)
+                    if (board.GetLocatable(new Vector2Int(x, y)) == null)
+                        validLocations.Add(new Vector2Int(x, y));
+
+            return validLocations.ToArray();
+        }
+
+        public static Vector2Int PositionToGridLocation(Vector3 position)
+        {
+            return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+        }
+
+        public static bool CheckVictory(IBoard board, IPiece piece)
+        {
             foreach (Vector2Int dir in Directions)
             {
-                for (int i = 1; i < 3; i++)
+                for (int i = 1; i <= 2; i++)
                 {
-                    Vector2Int location = pieceLocation + dir * i;
-                    board.TryGetPiece(location, out IPiece neighbour);
-                    if (neighbour == null || neighbour.OwnerId != player.Id)
+                    Vector2Int location = ModulateLocation(piece.Location + dir * i, board.Size);
+                    ILocatable neighbour = board.GetLocatable(location);
+                    if (neighbour == null || neighbour.OwnerId != piece.OwnerId)
                         break;
 
                     if (i == 2)
@@ -38,27 +55,22 @@ namespace Core
             return false;
         }
 
-        public static Vector2Int PositionToGridLocation(Vector3 position)
+        public static bool IsValidSelection(IPlayer player, IPiece piece)
         {
-            return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
+            if (piece == null || player.Id != piece.OwnerId || (piece.IsLocated && player.PendingPieces.Length > 0))
+                return false;
+
+            return true;
         }
 
-        public static List<Vector2Int> GetValidLocations(IBoard board)
+        private static Vector2Int ModulateLocation(Vector2Int location, int mod)
         {
-            List<Vector2Int> randomLocations = new List<Vector2Int>();
-
-            for (int x = 0; x < board.Size; x++)
-                for (int y = 0; y < board.Size; y++)
-                    if (board.TryGetPiece(new Vector2Int(x, y), out IPiece piece) && piece == null)
-                        randomLocations.Add(new Vector2Int(x, y));
-
-            return randomLocations;
+            return new Vector2Int(Modulate(location.x, mod), Modulate(location.y, mod));
         }
 
-        public static Vector2Int GetRandomValidLocation(IBoard board)
+        private static int Modulate(int v, int mod)
         {
-            List<Vector2Int> validLocations = GetValidLocations(board);
-            return validLocations[Random.Range(0, validLocations.Count)];
+            return (v % mod + mod) % mod;
         }
     }
 }

@@ -1,7 +1,6 @@
 using Config;
 using Core;
 using DG.Tweening;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Client
@@ -20,7 +19,7 @@ namespace Client
             Piece.OnLocate += OnLocatePiece;
 
             name = config.name;
-            spriteRenderer.sprite = config.sprite;
+            spriteRenderer.sprite = config.Sprite;
             spriteRenderer.color = Piece.OwnerId == 0 ? Color.white : Color.black;
 
             transform.localPosition = Vector3.right * index;
@@ -38,24 +37,14 @@ namespace Client
             selectTween.Rewind();
         }
 
-        public bool TryMove(IBoard board, Vector2Int location)
+        private void OnLocatePiece(Vector2Int location)
         {
-            return board.TryMovePiece(Piece, location);
-        }
-
-        private void OnLocatePiece(IPiece piece, EMoveResult result)
-        {
-            locateTween = transform.DOMove(new Vector3(piece.Location.x, piece.Location.y), .25f);
+            locateTween = transform.DOMove(new Vector3(location.x, location.y), .25f);
         }
 
         public void Recycle(Pool<PieceBehaviour> pool)
         {
             pool.Recycle(this);
-        }
-
-        public IEnumerable<Vector2Int> GetMoves(IBoard board)
-        {
-            return Piece.GetValidMoves(board);
         }
     }
 }

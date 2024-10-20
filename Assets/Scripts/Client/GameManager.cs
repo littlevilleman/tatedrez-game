@@ -1,6 +1,5 @@
+using Client.Input;
 using Client.UI;
-using Core;
-using System;
 using UnityEngine;
 
 namespace Client
@@ -12,15 +11,10 @@ namespace Client
         [SerializeField] private InputManager input;
         [SerializeField] private MatchManager matchManager;
 
-        private IMatchBuilder matchBuilder;
-
         private void Start()
         {
-            matchBuilder = new MatchBuilder();
-            Action a = () => matchManager.RequestStartMatch();
-
-            ui.DisplayScreen<MainMenu>(a);
-            matchManager.Setup(matchBuilder, config, ui, input);
+            matchManager.Setup(config, ui, input);
+            ui.DisplayScreen<MainMenuScreen>(matchManager);
         }
     }
 }

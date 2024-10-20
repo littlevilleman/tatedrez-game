@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Core
@@ -6,70 +5,54 @@ namespace Core
     public interface IBoard
     {
         public int Size { get; }
-        public bool TryGetPiece(Vector2Int location, out IPiece piece);
-        public bool IsValidLocation(Vector2Int location);
-        public bool TryMovePiece(IPiece piece, Vector2Int location);
+        public ILocatable GetLocatable(Vector2Int location);
+        public void Locate(IPiece piece, Vector2Int location);
+        public bool IsInsideBounds(Vector2Int toLocation);
+    }
+
+    public interface ILocatable
+    {
+        public event LocatePiece OnLocate;
+        public int OwnerId { get; }
+        public Vector2Int Location { get; }
+        public void SetLocation(Vector2Int location);
     }
 
     public class Board : IBoard
     {
         public int Size { get; private set; }
-        private IPiece[,] pieces;
-
+        private ILocatable[,] pieces;
 
         public Board(int sizeSetup)
         {
             Size = sizeSetup;
-            pieces = new IPiece[Size, Size];
+            pieces = new ILocatable[Size, Size];
         }
 
-        public bool IsValidLocation(Vector2Int location)
+        public ILocatable GetLocatable(Vector2Int location)
         {
-            if (TryGetPiece(location, out IPiece piece) && piece == null)
-                return true;
+            if (IsInsideBounds(location))
+                return pieces[location.x, location.y];
 
-            return false;
+            return null;
         }
 
-        public bool TryGetPiece(Vector2Int location, out IPiece piece)
+        private void SetLocatable(Vector2Int location, ILocatable locatable)
         {
-            try 
-            { 
-                piece = pieces[location.x, location.y]; 
-            }
-            catch (IndexOutOfRangeException)
-            {
-                piece = null;
-                return false;
-            }
-
-            return true;
+            if (IsInsideBounds(location))
+                pieces[location.x, location.y] = locatable;
         }
 
-        private bool TrySetPiece(Vector2Int location, IPiece piece)
+        public void Locate(IPiece piece, Vector2Int toLocation)
         {
-            try
-            {
-                pieces[location.x, location.y] = piece;
-                return true;
-            }
-            catch (IndexOutOfRangeException)
-            {
-                return false;
-            }
+            SetLocatable(piece.Location, null);
+            piece.SetLocation(toLocation);
+            SetLocatable(toLocation, piece);
         }
 
-        public bool TryMovePiece(IPiece piece, Vector2Int location)
+        public bool IsInsideBounds(Vector2Int toLocation)
         {
-            Vector2Int fromLocation = piece.Location;
-
-            if (piece.TryMove(this, location) == EMoveResult.FAILED)
-                return false;
-
-            TrySetPiece(fromLocation, null);
-            TrySetPiece(location, piece);
-            Debug.Log($"[Core/Board] - Move piece {piece} {location}");
-            return true;
+            return toLocation.x >= 0 && toLocation.x < Size && toLocation.y >= 0 && toLocation.y < Size;
         }
     }
 }

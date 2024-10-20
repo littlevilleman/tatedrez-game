@@ -3,26 +3,20 @@ using UnityEngine;
 
 namespace Core.Pieces
 {
-    public class Rook : Piece, IPiece
+    public class Rook : IPieceStrategy
     {
-        public Rook(int ownerIdSetup) : base(ownerIdSetup)
+        public ICollection<Vector2Int> GetValidMoves(IBoard board, Vector2Int location)
         {
-        }
-
-        public override List<Vector2Int> GetValidMoves(IBoard board)
-        {
-            List<Vector2Int> moves = new List<Vector2Int>();
+            ICollection<Vector2Int> moves = new List<Vector2Int>();
 
             foreach(Vector2Int direction in TatedrezUtils.OrthogonalDirections)
             {
                 for (int i = 1; i < board.Size; i++)
                 {
-                    Vector2Int location = Location + direction * i;
-
-                    if (!board.IsValidLocation(location))
+                    if (board.GetLocatable(location + direction * i) !=null)
                         break;
                     
-                    moves.Add(location);
+                    moves.Add(location + direction * i);
                 }
             }
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Core
@@ -8,24 +7,23 @@ namespace Core
         public int Id { get; }
         public string Name { get; }
         public IPiece[] Pieces { get; }
-        public List<IPiece> PendingPieces { get; }
+        public IPiece[] PendingPieces { get; }
 
-        public void OpenTurn(ITurnDispatcher turnDispatcher, IBoard board);
-        public void CloseTurn(ITurnDispatcher turnDispatcher);
+        public void OpenTurn(IMatch turnDispatcher, IBoard board);
+        public bool HasAvailableMoves(IBoard board);
     }
 
-    public abstract class Player
+    public abstract class Player : IPlayer
     {
         public int Id { get; protected set; }
         public string Name { get; protected set; }
         public IPiece[] Pieces { get; protected set; }
+        public IPiece[] PendingPieces => Pieces.Where(x => !x.IsLocated).ToArray();
+        public abstract void OpenTurn(IMatch match, IBoard board);
 
-        public abstract void OpenTurn(ITurnDispatcher turnDispatcher, IBoard board);
-        public abstract void CloseTurn(ITurnDispatcher match);
-
-        protected bool HasAvailableMoves(IBoard board)
+        public bool HasAvailableMoves(IBoard board)
         {
-            return Pieces.Any(x => !x.IsLocated || x.GetValidMoves(board).Count > 0);
+            return Pieces.Any(x => x.GetValidMoves(board).Count > 0);
         }
     }
 }

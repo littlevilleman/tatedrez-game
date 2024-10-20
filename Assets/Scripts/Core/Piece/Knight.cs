@@ -3,13 +3,9 @@ using UnityEngine;
 
 namespace Core.Pieces
 {
-    public class Knight : Piece, IPiece
+    public class Knight : IPieceStrategy
     {
-        public Knight(int ownerIdSetup) : base(ownerIdSetup)
-        {
-        }
-
-        public override List<Vector2Int> GetValidMoves(IBoard board)
+        public ICollection<Vector2Int> GetValidMoves(IBoard board, Vector2Int location)
         {
             List<Vector2Int> moves = new List<Vector2Int>();
 
@@ -17,10 +13,9 @@ namespace Core.Pieces
             {
                 for (int i = -1; i <= 1; i += 2)
                 {
-                    Vector2Int location = Location + direction * 2 + new Vector2Int(direction.y, direction.x) * i;
-
-                    if (board.IsValidLocation(location))
-                        moves.Add(location);
+                    Vector2Int perpendicular =  new Vector2Int(direction.y, direction.x) * i;
+                    if (board.GetLocatable(location + direction * 2 + perpendicular) == null)
+                        moves.Add(location + direction * 2 + perpendicular);
                 }
             }
 

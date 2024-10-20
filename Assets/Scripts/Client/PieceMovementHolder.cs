@@ -10,16 +10,16 @@ namespace Client
         [SerializeField] private List<SpriteRenderer> locationHolders;
         [SerializeField] private Color validDebugColor;
 
-        public void OnSelect(IBoard board, PieceBehaviour selectedPiece)
+        public void OnSelect(IBoard board, IPiece piece)
         {
             foreach (SpriteRenderer holder in locationHolders)
                 holder.color = new Color(1f, 1f, 1f, 0f);
 
-            if (selectedPiece == null)
+            if (piece == null)
                 return;
 
-            List<Vector2Int> moves = selectedPiece.Piece.IsLocated ? selectedPiece.GetMoves(board).ToList() : TatedrezUtils.GetValidLocations(board);
-            for (int i = 0; i < moves?.Count; i++)
+            Vector2Int[] moves = piece.GetValidMoves(board).ToArray();
+            for (int i = 0; i < moves?.Length; i++)
             {
                 locationHolders[i].transform.position = new Vector3(moves[i].x, moves[i].y);
                 locationHolders[i].color = validDebugColor;
