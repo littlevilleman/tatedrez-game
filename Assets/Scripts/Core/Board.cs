@@ -37,17 +37,17 @@ namespace Core
             return null;
         }
 
-        private void SetLocatable(Vector2Int location, ILocatable locatable)
-        {
-            if (IsInsideBounds(location))
-                pieces[location.x, location.y] = locatable;
-        }
-
         public void Locate(IPiece piece, Vector2Int toLocation)
         {
             SetLocatable(piece.Location, null);
             piece.SetLocation(toLocation);
             SetLocatable(toLocation, piece);
+        }
+
+        private void SetLocatable(Vector2Int location, ILocatable locatable)
+        {
+            if (IsInsideBounds(location))
+                pieces[location.x, location.y] = locatable;
         }
 
         public bool IsInsideBounds(Vector2Int toLocation)

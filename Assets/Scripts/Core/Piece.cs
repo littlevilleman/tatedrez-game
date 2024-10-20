@@ -7,14 +7,14 @@ namespace Core
 {
     public interface IPieceStrategy
     {
-        public ICollection<Vector2Int> GetValidMoves(IBoard board, Vector2Int location);
+        public Vector2Int[] GetValidMoves(IBoard board, Vector2Int location);
     }
 
     public interface IPiece : ILocatable
     {
         public EPieceId Id { get; }
         public bool IsLocated { get; }
-        public ICollection<Vector2Int> GetValidMoves(IBoard board);
+        public Vector2Int[] GetValidMoves(IBoard board);
     }
 
     public class Piece : IPiece
@@ -34,10 +34,10 @@ namespace Core
             strategy = strategySetup;
         }
 
-        public ICollection<Vector2Int> GetValidMoves(IBoard board)
+        public Vector2Int[] GetValidMoves(IBoard board)
         {
             if (IsLocated)
-                return strategy.GetValidMoves(board, Location).Where(x => board.IsInsideBounds(x)).ToArray();
+                return strategy.GetValidMoves(board, Location).ToArray();
 
             return TatedrezUtils.GetEmptyLocations(board);
         }

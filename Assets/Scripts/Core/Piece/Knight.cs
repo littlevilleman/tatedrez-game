@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Core.Pieces
 {
     public class Knight : IPieceStrategy
     {
-        public ICollection<Vector2Int> GetValidMoves(IBoard board, Vector2Int location)
+        public Vector2Int[] GetValidMoves(IBoard board, Vector2Int location)
         {
             List<Vector2Int> moves = new List<Vector2Int>();
 
@@ -19,7 +20,7 @@ namespace Core.Pieces
                 }
             }
 
-            return moves;
+            return moves.Where(x=>board.IsInsideBounds(x)).ToArray();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Client.Input
         public void AddObserver(IMatchInputObserver observer)
         {
 #if UNITY_EDITOR
-            touchControls.Touch.Click.performed += observer.OnClick;
+            touchControls.Touch.TouchPress.started += observer.OnClick;
 #else
             touchControls.Touch.TouchPress.started += observer.OnClick;
 #endif
@@ -29,7 +29,7 @@ namespace Client.Input
         public Vector2 GetClickPosition()
         {
 #if UNITY_EDITOR
-            return cam.ScreenToWorldPoint(touchControls.Touch.ClickPosition.ReadValue<Vector2>());
+            return cam.ScreenToWorldPoint(touchControls.Touch.TouchPosition.ReadValue<Vector2>());
 #else
             return cam.ScreenToWorldPoint(touchControls.Touch.TouchPosition.ReadValue<Vector2>());
 #endif
@@ -38,7 +38,7 @@ namespace Client.Input
         public void RemoveObserver(IMatchInputObserver observer)
         {
 #if UNITY_EDITOR
-            touchControls.Touch.Click.performed -= observer.OnClick;
+            touchControls.Touch.TouchPress.started -= observer.OnClick;
 #else
             touchControls.Touch.TouchPress.started -= observer.OnClick;
 #endif

@@ -18,8 +18,6 @@ namespace Core
 
         public override void OpenTurn(IMatch match, IBoard board)
         {
-            //if (!HasAvailableMoves(board))
-            //    match.SkipTurn(this);
         }
 
         public void RequestMove(IMatch match, IPiece piece, Vector2Int move)

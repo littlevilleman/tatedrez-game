@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -12,7 +11,6 @@ namespace Core
 
         public IPlayer[] Players { get; }
         public IMatchRequestHandler LocalPlayer { get; }
-
         public void Launch();
         public void RequestMovement(IPlayer player, IPiece piece, Vector2Int movement);
     }
@@ -23,12 +21,13 @@ namespace Core
         public event SwitchTurn OnSwitchTurn;
         public event EndMatch OnEnd;
 
-        public IPlayer[] Players { get; private set; }
-        public IMatchRequestHandler LocalPlayer => Players.OfType<IMatchRequestHandler>().FirstOrDefault();
-
         private IBoard board;
         private int turn = 0;
         private int currentPlayer;
+
+        public IPlayer[] Players { get; private set; }
+        public IMatchRequestHandler LocalPlayer => Players.OfType<IMatchRequestHandler>().FirstOrDefault();
+        private IPlayer CurrentPlayer => Players[currentPlayer];
 
         public Match(IBoard boardSetup, IPlayer localPlayer, IPlayer remotePlayer)
         {
@@ -39,34 +38,30 @@ namespace Core
         public void Launch()
         {
             turn = 0;
-            OnSwitchTurn?.Invoke(Players[currentPlayer]);
+            OnSwitchTurn?.Invoke(CurrentPlayer);
             Debug.Log($"[Core/GameMatch] - Start");
         }
 
         public void RequestMovement(IPlayer player, IPiece piece, Vector2Int movement)
         {
-            if (player.Id != Players[currentPlayer].Id || !piece.GetValidMoves(board).Contains(movement))
+            if (player.Id != CurrentPlayer.Id || !piece.GetValidMoves(board).Contains(movement))
                 return;
-            
-            Debug.Log($"[Core/Match] - {player.Name} Request move {piece.Id} to {movement}");
-
 
             board.Locate(piece, movement);
+            Debug.Log($"[Core/Match] - {player.Name} Move {piece.Id} to {movement}");
 
-            if (piece != null && TatedrezUtils.CheckVictory(board, piece))
+            if (!TatedrezUtils.CheckVictory(board, piece))
             {
-                OnEnd?.Invoke(player);
-                Debug.Log($"[Core/Match] - End - {player.Name} wins!");
+                turn++;
+                int next = (currentPlayer + 1) % 2;
+                currentPlayer = Players[next].HasAvailableMoves(board) ? next : currentPlayer;
+                OnSwitchTurn?.Invoke(CurrentPlayer);
+                Debug.Log($"[Core/Match] - Launch turn {turn} - {CurrentPlayer.Name}");
                 return;
             }
 
-            bool skip = CheckSkip(currentPlayer);
-            turn++;
-            currentPlayer = (player.Id + (skip ? 2 : 1)) % 2;
-            Debug.Log($"[Core/Match] - Launch turn {turn} - {Players[currentPlayer].Name}");
-            OnSwitchTurn?.Invoke(Players[currentPlayer]);
+            OnEnd?.Invoke(player);
+            Debug.Log($"[Core/Match] - End - {player.Name} wins!");
         }
-
-        private bool CheckSkip(int playerId) => !Players[(playerId + 1) % 2].HasAvailableMoves(board);
     }
 }

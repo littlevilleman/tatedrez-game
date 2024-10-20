@@ -38,39 +38,35 @@ namespace Core
 
         public static bool CheckVictory(IBoard board, IPiece piece)
         {
-            foreach (Vector2Int dir in Directions)
-            {
+            ICollection<Vector2Int> checkDirections = IsOwningCenter(board, piece.OwnerId) ? Directions : OrthogonalDirections;
+            foreach (Vector2Int dir in checkDirections)
                 for (int i = 1; i <= 2; i++)
                 {
                     Vector2Int location = ModulateLocation(piece.Location + dir * i, board.Size);
                     ILocatable neighbour = board.GetLocatable(location);
-                    if (neighbour == null || neighbour.OwnerId != piece.OwnerId)
+                    if (neighbour?.OwnerId != piece.OwnerId)
                         break;
 
                     if (i == 2)
                         return true;
                 }
-            }
 
             return false;
         }
 
+        private static bool IsOwningCenter(IBoard board, int playerId)
+        {
+            return board.GetLocatable(Vector2Int.one)?.OwnerId == playerId;
+        }
+
         public static bool IsValidSelection(IPlayer player, IPiece piece)
         {
-            if (piece == null || player.Id != piece.OwnerId || (piece.IsLocated && player.PendingPieces.Length > 0))
-                return false;
-
-            return true;
+            return piece != null && player.Id == piece.OwnerId && (!piece.IsLocated || player.PendingPieces.Length == 0);
         }
 
         private static Vector2Int ModulateLocation(Vector2Int location, int mod)
         {
-            return new Vector2Int(Modulate(location.x, mod), Modulate(location.y, mod));
-        }
-
-        private static int Modulate(int v, int mod)
-        {
-            return (v % mod + mod) % mod;
+            return new Vector2Int((location.x % mod + mod) % mod, (location.y % mod + mod) % mod);
         }
     }
 }

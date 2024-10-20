@@ -8,7 +8,6 @@ namespace Core
         public string Name { get; }
         public IPiece[] Pieces { get; }
         public IPiece[] PendingPieces { get; }
-
         public void OpenTurn(IMatch turnDispatcher, IBoard board);
         public bool HasAvailableMoves(IBoard board);
     }
@@ -23,7 +22,7 @@ namespace Core
 
         public bool HasAvailableMoves(IBoard board)
         {
-            return Pieces.Any(x => x.GetValidMoves(board).Count > 0);
+            return Pieces.Any(x => x.GetValidMoves(board).Length > 0);
         }
     }
 }

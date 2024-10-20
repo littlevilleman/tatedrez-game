@@ -21,7 +21,7 @@ namespace Core
 
         private IPiece GetRandomPiece(IBoard board)
         {
-            IPiece[] validPieces = PendingPieces.Length > 0 ? PendingPieces : Pieces.Where(x => x.GetValidMoves(board).Count > 0).ToArray();
+            IPiece[] validPieces = PendingPieces.Length > 0 ? PendingPieces : Pieces.Where(x => x.GetValidMoves(board).Length > 0).ToArray();
             if (validPieces.Length > 0)
                 return validPieces[Random.Range(0, validPieces.Length)];
 
